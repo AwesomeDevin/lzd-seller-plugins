@@ -1,2 +1,3 @@
 # vitdoc-plugins
-vitdoc-plugins
+
+vitdoc-plugins list

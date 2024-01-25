@@ -1,0 +1,35 @@
+{
+  "name": "@vitdoc-plugins/package-alias",
+  "version": "0.0.1-beta.1",
+  "description": "support import based on packageName",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "unbuild",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AwesomeDevin/vitdoc-plugins.git"
+  },
+  "keywords": [
+    "vitdoc"
+  ],
+  "author": "AwesomeDevin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AwesomeDevin/vitdoc-plugins/issues"
+  },
+  "homepage": "https://github.com/AwesomeDevin/vitdoc-plugins#readme",
+  "devDependencies": {
+  },
+  "dependencies": {
+    "fs-extra": "^11.2.0",
+    "glob": "^10.3.10",
+    "consola": "^3.2.3"
+  }
+}

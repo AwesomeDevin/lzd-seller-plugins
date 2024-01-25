@@ -1,0 +1,28 @@
+{
+  "name": "@vitdoc-plugins/import-markdown",
+  "version": "0.0.1-beta.1",
+  "description": "support import markdown",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "unbuild",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AwesomeDevin/vitdoc-plugins.git"
+  },
+  "keywords": [
+    "vitdoc"
+  ],
+  "author": "AwesomeDevin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AwesomeDevin/vitdoc-plugins/issues"
+  },
+  "homepage": "https://github.com/AwesomeDevin/vitdoc-plugins#readme"
+}
