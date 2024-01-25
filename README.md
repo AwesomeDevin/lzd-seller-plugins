@@ -1,3 +1,3 @@
 # vitdoc-plugins
 
-vitdoc-plugins list
+plugins for [vitdoc](https://github.com/vitdocjs/vitdoc)
