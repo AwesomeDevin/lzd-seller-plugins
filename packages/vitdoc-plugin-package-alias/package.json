@@ -1,6 +1,6 @@
 {
   "name": "@vitdoc-plugins/package-alias",
-  "version": "0.0.1-beta.1",
+  "version": "0.0.1-beta.2",
   "description": "support import based on packageName",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",

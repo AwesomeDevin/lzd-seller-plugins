@@ -3,7 +3,7 @@ import * as path from 'path'
 import * as glob from 'glob'
 import * as fsExtra from 'fs-extra'
 
-interface IProps {
+export interface IVitdocPackageNameAliasPluginParams {
   entryConfig: string
 }
 
@@ -11,7 +11,7 @@ const name = 'vitdocPackageNameAliasPlugin'
 
 const logger = new Logger(name)
 
-export default (options?: IProps) => {
+export default (options?: IVitdocPackageNameAliasPluginParams) => {
 
   let { entryConfig = 'src/index' } = options || {}
 

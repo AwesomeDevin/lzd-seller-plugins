@@ -3,7 +3,9 @@
 
 const name = 'vitdocReplaceYamlPlugin'
 
-export default (yamlKeyMap: Record<string, string>) => ({
+export type TVitdocReplaceYamlPluginParams = Record<string, string>
+
+export default (yamlKeyMap: TVitdocReplaceYamlPluginParams) => ({
   name,
   modifyMarkdown: async (content, id) => {
     // replace 左侧菜单 yaml key 
