@@ -4,7 +4,7 @@ import * as glob from 'glob'
 import * as fsExtra from 'fs-extra'
 
 export interface IVitdocPackageNameAliasPluginParams {
-  entryConfig: string
+  entryConfig?: string
 }
 
 const name = 'vitdocPackageNameAliasPlugin'
