@@ -30,7 +30,7 @@ export default (options?: IVitdocPackageNameAliasPluginParams) => {
 
         if (!entry.length) throw new Error("no entry file");
 
-        const entryResult = isMonorepo ? entry.map(item => {
+        const packageAlias = isMonorepo ? entry.map(item => {
 
           const reg = new RegExp(`${entryConfig}.(tsx|jsx|ts|js)`, 'g')
 
@@ -45,10 +45,10 @@ export default (options?: IVitdocPackageNameAliasPluginParams) => {
         }
 
         logger.info('Current Entry Config: ' + entryConfig)
-        logger.success('Resolve Entry Config Success:\n' + JSON.stringify(entryResult, null, 2))
+        logger.success('Resolve Entry Config Success:\n' + JSON.stringify(packageAlias, null, 2))
         return {
           ...config,
-          ...entryResult
+          packageAlias
         }
       } catch (e: any) {
         logger.error(`Resolve Entry Config Error: ${e.message} !!!`)
