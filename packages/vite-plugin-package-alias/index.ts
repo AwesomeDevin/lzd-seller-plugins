@@ -1,66 +1,79 @@
 /**
  * auto resolve package name alias for vite
  */
-
-import { isMonorepo as isMonorepoFn, Logger } from "../../utils"
-import * as path from 'path'
-import * as glob from 'glob'
-import * as fsExtra from 'fs-extra'
+import { isMonorepo as isMonorepoFn, Logger } from '../../utils'
+import path from 'path'
+import glob from 'glob'
+import fsExtra from 'fs-extra'
 import { mergeConfig } from 'vite'
 
 export interface IVitePackageNameAliasPluginParams {
-  entry?: string
+  entryPointPath?: string
 }
 
 const name = 'vitePackageNameAliasPlugin'
-
 const logger = new Logger(name)
 
 export default (options?: IVitePackageNameAliasPluginParams) => {
-
-  let { entry: entryConfig = 'src/index' } = options || {}
-
-  return ({
+  let { entryPointPath = 'src/index' } = options || {}
+  return {
     name,
     config: async (config) => {
       const isMonorepo = isMonorepoFn()
-      entryConfig = entryConfig.replace(/\.(tsx|jsx|ts|js)?$/g, '')
-
+      entryPointPath = entryPointPath.replace(/\.(tsx?|jsx?)?$/, '')
       try {
-        const findPath = path.join(process.cwd(), isMonorepo ? `**/${entryConfig}.{tsx,jsx,ts,js}` : `${entryConfig}.{tsx,jsx,ts,js}`)
-        const entry = glob.sync(findPath, {
+        const pattern = isMonorepo
+          ? `**/${entryPointPath}.{tsx,jsx,ts,js}`
+          : `${entryPointPath}.{tsx,jsx,ts,js}`
+
+        const entryFiles = glob.sync(path.join(process.cwd(), pattern), {
           cwd: process.cwd(),
-          ignore: '**/node_modules/**'
-        });
+          ignore: '**/node_modules/**',
+        })
 
-        if (!entry.length) throw new Error("no entry file");
-
-        const packageAlias = isMonorepo ? entry.map(item => {
-
-          const reg = new RegExp(`${entryConfig}.(tsx|jsx|ts|js)`, 'g')
-
-          const pkgPath = path.join(item.replace(reg, ''), "package.json")
-
-          return fsExtra.existsSync(pkgPath) ? {
-            [fsExtra.readJSONSync(pkgPath).name]: item
-          } : {}
-        }).reduce((prev, next) => ({ ...prev, ...next }), {}) : {
-          [fsExtra.readJSONSync(path.join(process.cwd(), "package.json")).name]:
-            entry[0],
+        if (entryFiles.length === 0) {
+          throw new Error('no entry file found')
         }
 
-        logger.info('Current Entry Config: ' + entryConfig)
-        logger.success('Resolve Entry Config Success1:\n' + JSON.stringify(packageAlias, null, 2))
+        const packageAlias = await createPackageAlias(
+          entryFiles,
+          entryPointPath
+        )
+        logger.info('Current Entry Config: ' + entryPointPath)
+        logger.success(
+          'Resolved Entry Config:\n' + JSON.stringify(packageAlias, null, 2)
+        )
 
         return mergeConfig(config, {
-          resolve: {
-            alias: packageAlias
-          }
+          resolve: { alias: packageAlias },
         })
       } catch (e: any) {
         logger.error(`Resolve Entry Config Error: ${e.message} !!!`)
-        return config;
+        return config
       }
     },
+  }
+}
+
+async function createPackageAlias(entryFiles, entryConfig) {
+  const packageAlias = {}
+  const packagePromises = entryFiles.map(async (filePath) => {
+    const pkgPath = path.join(filePath, '../package.json')
+    if (await fsExtra.pathExists(pkgPath)) {
+      try {
+        const pkg = await fsExtra.readJSON(pkgPath)
+        pkg?.name &&
+          Object.assign(packageAlias, {
+            [pkg.name]: filePath.replace(`${entryConfig}.(tsx|jsx|ts|js)`, ''),
+          })
+      } catch (error) {
+        // Log the error if needed
+        return null // Or throw the error, depending on the desired behavior
+      }
+    }
   })
+
+  await Promise.allSettled(packagePromises)
+
+  return packageAlias
 }
