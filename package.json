@@ -1,7 +1,9 @@
 {
   "name": "vitedoc-plugins",
   "scripts": {
-    "build": "pnpm -r  --parallel build"
+    "build": "pnpm -r  --parallel build",
+    "pub": "pnpm -r  --parallel pub"
+
   },
   "devDependencies": {
     "@types/node": "^20.11.6",
