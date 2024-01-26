@@ -11,7 +11,7 @@ export type IceMarkdownReplacePluginOptions = {
   yamlKeyMap?: TVitdocReplaceYamlPluginParams
 }
 
-export default (options: IceMarkdownReplacePluginOptions) => ({
+export default (options?: IceMarkdownReplacePluginOptions) => ({
   name,
   modifyMarkdown: (content: string) => {
     let modifiedContent = content
@@ -21,7 +21,7 @@ export default (options: IceMarkdownReplacePluginOptions) => ({
     // replace ReactDocgenProps to API
     modifiedContent = reactDocgenPropsRename(modifiedContent)
     // replace yaml keys to new keys
-    options?.yamlKeyMap && yamlReplace(content, options?.yamlKeyMap)
+    yamlReplace(content, options?.yamlKeyMap)
 
     return modifiedContent
   },
