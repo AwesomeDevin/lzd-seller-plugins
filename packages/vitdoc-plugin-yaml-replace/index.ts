@@ -1,36 +1,31 @@
+const name = "vitdocReplaceYamlPlugin";
+export type TVitdocReplaceYamlPluginParams = Record<string, string>;
 
-
-
-const name = 'vitdocReplaceYamlPlugin'
-
-export type TVitdocReplaceYamlPluginParams = Record<string, string>
+const yamlRegex = /^\s*---([\s\S]*?)---/;
 
 export default (yamlKeyMap: TVitdocReplaceYamlPluginParams) => ({
   name,
-  modifyMarkdown: async (content, id) => {
-    // replace 左侧菜单 yaml key 
-    const yamlMatches = content?.match(/---([\s\S]*?)---/)
-    if (yamlMatches) {
-      const yamlStr = yamlMatches?.[1]
-      const yamlObj = yamlStr.split('\n').reduce((acc, cur) => {
-        const [key, value] = cur.split(':')
-        if (key && value) {
-          acc[key.trim()] = value.trim()
-        }
-        return acc
-      }, {})
-      const newKeyObj = Object.keys(yamlObj).reduce((acc, cur) => {
-        const newKey = yamlKeyMap[cur] || cur
-        acc[newKey] = yamlObj[cur]
-        return acc
-      }, {})
+  modifyMarkdown: async (content) => {
+    let yamlSectionMatch = content.match(yamlRegex);
+    if (yamlSectionMatch) {
+      let newYamlSection = yamlSectionMatch[1];
+      // 同时替换所有键值对
+      newYamlSection = Object.entries(yamlKeyMap).reduce(
+        (yamlContent, [key, newKey]) => {
+          // 用字面量方式构建正则表达式以避免特殊字符的问题
+          const keyRegex = new RegExp(`^${key}(?=\\s*:)`, "m");
+          return yamlContent.replace(keyRegex, newKey);
+        },
+        newYamlSection
+      );
 
-      const newStr = Object.keys(newKeyObj).reduce((acc, cur) => {
-        return acc + `\n${cur}: ${newKeyObj[cur]}\n`
-      }, '')
-
-      content = content.replace(yamlStr, newStr)
+      // 仅替换匹配到的 YAML 部分
+      content = content.replace(
+        yamlSectionMatch[0],
+        `---\n${newYamlSection}\n---`
+      );
     }
-    return content
+
+    return content;
   },
-})
+});
