@@ -1,5 +1,5 @@
 const reactDocgenPropsRegex =
-  /<ReactDocgenProps\s+path="([^"]+)\.(tsx|jsx)"\s*(\/>|>[^<]*<\/ReactDocgenProps>)/g
+  /<ReactDocgenProps\s+path="([^"]+\.(tsx|jsx))"\s*(\/>|>[^<]*<\/ReactDocgenProps>)/g
 
 /**
  * replace ReactDocgenProps to API
