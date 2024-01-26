@@ -1,59 +1,77 @@
-import { isMonorepo as isMonorepoFn, Logger } from "../../utils"
-import * as path from 'path'
-import * as glob from 'glob'
-import * as fsExtra from 'fs-extra'
+import { isMonorepo as isMonorepoFn, Logger } from "../../utils";
+import path from "path";
+import glob from "glob";
+import fsExtra from "fs-extra";
 
 export interface IVitdocPackageNameAliasPluginParams {
-  entryConfig?: string
+  entryConfig?: string;
 }
 
-const name = 'vitdocPackageNameAliasPlugin'
+const name = "vitdocPackageNameAliasPlugin";
+const logger = new Logger(name);
 
-const logger = new Logger(name)
+export default (options: IVitdocPackageNameAliasPluginParams = {}) => {
+  const entryConfig =
+    options.entryConfig?.replace(/\.(tsx|jsx|ts|js)$/, "") || "src/index";
 
-export default (options?: IVitdocPackageNameAliasPluginParams) => {
-
-  let { entryConfig = 'src/index' } = options || {}
-
-  return ({
+  return {
     name,
     config: async (config) => {
-      const isMonorepo = isMonorepoFn()
-      entryConfig = entryConfig.replace(/\.(tsx|jsx|ts|js)?$/g, '')
-
       try {
-        const findPath = path.join(process.cwd(), isMonorepo ? `**/${entryConfig}.{tsx,jsx,ts,js}` : `${entryConfig}.{tsx,jsx,ts,js}`)
-        const entry = glob.sync(findPath, {
-          cwd: process.cwd(),
-          ignore: '**/node_modules/**'
-        });
-
-        if (!entry.length) throw new Error("no entry file");
-
-        const entryResult = isMonorepo ? entry.map(item => {
-
-          const reg = new RegExp(`${entryConfig}.(tsx|jsx|ts|js)`, 'g')
-
-          const pkgPath = path.join(item.replace(reg, ''), "package.json")
-
-          return fsExtra.existsSync(pkgPath) ? {
-            [fsExtra.readJSONSync(pkgPath).name]: item
-          } : {}
-        }).reduce((prev, next) => ({ ...prev, ...next }), {}) : {
-          [fsExtra.readJSONSync(path.join(process.cwd(), "package.json")).name]:
-            entry[0],
-        }
-
-        logger.info('Current Entry Config: ' + entryConfig)
-        logger.success('Resolve Entry Config Success:\n' + JSON.stringify(entryResult, null, 2))
-        return {
-          ...config,
-          ...entryResult
-        }
+        const isMonorepo = isMonorepoFn();
+        const entryResult = await resolveEntryConfig(entryConfig, isMonorepo);
+        logger.info(
+          "Resolved Entry Config Successfully:\n" +
+            JSON.stringify(entryResult, null, 2)
+        );
+        return { ...config, ...entryResult };
       } catch (e: any) {
-        logger.error(`Resolve Entry Config Error: ${e.message} !!!`)
+        logger.error(`Resolve Entry Config Error: ${e.message}`);
         return config;
       }
     },
-  })
+  };
+};
+
+async function resolveEntryConfig(entryConfig: string, isMonorepo: boolean) {
+  const pattern = `${isMonorepo ? "**/" : ""}${entryConfig}.{js,jsx,ts,tsx}`;
+  const entryFiles = glob.sync(pattern, {
+    cwd: process.cwd(),
+    ignore: "**/node_modules/**",
+  });
+
+  if (!entryFiles.length) {
+    throw new Error("No entry file found.");
+  }
+
+  return isMonorepo
+    ? buildMonorepoEntryResult(entryFiles, entryConfig)
+    : buildSingleRepoEntryResult(entryFiles);
+}
+
+async function buildMonorepoEntryResult(
+  entryFiles: string[],
+  entryConfig: string
+) {
+  const entryResult = {};
+  const reg = new RegExp(`${entryConfig}.(tsx?|jsx?)$`);
+
+  const promises = entryFiles.map(async (item) => {
+    const pkgPath = path.join(path.dirname(item), "package.json");
+    if (await fsExtra.pathExists(pkgPath)) {
+      const pkg = await fsExtra.readJSON(pkgPath);
+      if (reg.test(item)) {
+        entryResult[pkg.name] = item;
+      }
+    }
+  });
+
+  await Promise.all(promises);
+  return entryResult;
+}
+
+async function buildSingleRepoEntryResult(entryFiles: string[]) {
+  const pkgPath = path.join(process.cwd(), "package.json");
+  const pkg = await fsExtra.readJSON(pkgPath);
+  return { [pkg.name]: entryFiles[0] };
 }
