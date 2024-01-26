@@ -9,7 +9,7 @@ import * as fsExtra from 'fs-extra'
 import { mergeConfig } from 'vite'
 
 export interface IVitePackageNameAliasPluginParams {
-  entryConfig?: string
+  entry?: string
 }
 
 const name = 'vitePackageNameAliasPlugin'
@@ -18,7 +18,7 @@ const logger = new Logger(name)
 
 export default (options?: IVitePackageNameAliasPluginParams) => {
 
-  let { entryConfig = 'src/index' } = options || {}
+  let { entry: entryConfig = 'src/index' } = options || {}
 
   return ({
     name,
@@ -51,12 +51,6 @@ export default (options?: IVitePackageNameAliasPluginParams) => {
 
         logger.info('Current Entry Config: ' + entryConfig)
         logger.success('Resolve Entry Config Success1:\n' + JSON.stringify(packageAlias, null, 2))
-
-        console.log('mergeConfig', mergeConfig(config, {
-          resolve: {
-            alias: packageAlias
-          }
-        }).resolve.alias)
 
         return mergeConfig(config, {
           resolve: {
