@@ -1,17 +1,22 @@
+/**
+ * auto resolve package name alias for vite
+ */
+
 import { isMonorepo as isMonorepoFn, Logger } from "../../utils"
 import * as path from 'path'
 import * as glob from 'glob'
 import * as fsExtra from 'fs-extra'
+import { mergeConfig } from 'vite'
 
-export interface IVitdocPackageNameAliasPluginParams {
+export interface IVitePackageNameAliasPluginParams {
   entryConfig?: string
 }
 
-const name = 'vitdocPackageNameAliasPlugin'
+const name = 'vitePackageNameAliasPlugin'
 
 const logger = new Logger(name)
 
-export default (options?: IVitdocPackageNameAliasPluginParams) => {
+export default (options?: IVitePackageNameAliasPluginParams) => {
 
   let { entryConfig = 'src/index' } = options || {}
 
@@ -45,11 +50,19 @@ export default (options?: IVitdocPackageNameAliasPluginParams) => {
         }
 
         logger.info('Current Entry Config: ' + entryConfig)
-        logger.success('Resolve Entry Config Success:\n' + JSON.stringify(packageAlias, null, 2))
-        return {
-          ...config,
-          packageAlias
-        }
+        logger.success('Resolve Entry Config Success1:\n' + JSON.stringify(packageAlias, null, 2))
+
+        console.log('mergeConfig', mergeConfig(config, {
+          resolve: {
+            alias: packageAlias
+          }
+        }).resolve.alias)
+
+        return mergeConfig(config, {
+          resolve: {
+            alias: packageAlias
+          }
+        })
       } catch (e: any) {
         logger.error(`Resolve Entry Config Error: ${e.message} !!!`)
         return config;

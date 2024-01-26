@@ -1,6 +1,6 @@
 {
-  "name": "@vitdoc-plugins/package-alias",
-  "version": "0.0.1-beta.7",
+  "name": "vite-plugin-package-alias",
+  "version": "0.0.1-beta.1",
   "description": "support import based on packageName",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
@@ -31,6 +31,7 @@
   "dependencies": {
     "fs-extra": "^11.2.0",
     "glob": "^10.3.10",
-    "consola": "^3.2.3"
+    "consola": "^3.2.3",
+    "vite": "^5.0.12"
   }
 }
