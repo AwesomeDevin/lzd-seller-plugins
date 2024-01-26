@@ -1,4 +1,4 @@
-import { importMarkdownReplace } from '../../utils/markdown-replace'
+import { importMarkdownReplace } from '../../utils/markdown'
 
 export default () => ({
   name: 'vitdocImportMarkdownPlugin',

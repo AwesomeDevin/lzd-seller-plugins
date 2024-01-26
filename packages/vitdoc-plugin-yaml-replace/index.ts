@@ -1,7 +1,7 @@
 import {
   yamlReplace,
   TVitdocReplaceYamlPluginParams,
-} from '../../utils/markdown-replace'
+} from '../../utils/markdown'
 
 export default (yamlKeyMap: TVitdocReplaceYamlPluginParams) => ({
   name: 'vitdocReplaceYamlPlugin',
