@@ -7,14 +7,14 @@ const DEFAULT_YAML_KEY_MAP = {
 
 const yamlRegex = /^\s*---([\s\S]*?)---/
 
-export type TVitdocReplaceYamlPluginParams = Record<string, string>
+export type TVitdocReplaceYamlParams = Record<string, string>
 
 /**
  * replace yaml keys to new keys
  */
-export const yamlReplace = async (
+export const yamlReplace = (
   content: string,
-  yamlKeyMap?: TVitdocReplaceYamlPluginParams
+  yamlKeyMap?: TVitdocReplaceYamlParams
 ) => {
   let yamlSectionMatch = content.match(yamlRegex)
   if (yamlSectionMatch) {

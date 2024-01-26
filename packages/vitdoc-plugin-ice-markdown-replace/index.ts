@@ -2,13 +2,13 @@ import {
   yamlReplace,
   importMarkdownReplace,
   reactDocgenPropsRename,
-  TVitdocReplaceYamlPluginParams,
+  TVitdocReplaceYamlParams,
 } from '../../utils/markdown'
 
 const name = 'vitdocIceMarkdownReplacePlugin'
 
 export type IceMarkdownReplacePluginOptions = {
-  yamlKeyMap?: TVitdocReplaceYamlPluginParams
+  yamlKeyMap?: TVitdocReplaceYamlParams
 }
 
 export default (options?: IceMarkdownReplacePluginOptions) => ({
@@ -16,12 +16,12 @@ export default (options?: IceMarkdownReplacePluginOptions) => ({
   modifyMarkdown: (content: string) => {
     let modifiedContent = content
 
+    // replace yaml keys to new keys
+    modifiedContent = yamlReplace(modifiedContent, options?.yamlKeyMap)
     // replace import statement to <embed />
     modifiedContent = importMarkdownReplace(modifiedContent)
     // replace ReactDocgenProps to API
     modifiedContent = reactDocgenPropsRename(modifiedContent)
-    // replace yaml keys to new keys
-    yamlReplace(content, options?.yamlKeyMap)
 
     return modifiedContent
   },
