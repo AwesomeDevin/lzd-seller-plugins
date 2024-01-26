@@ -1,6 +1,6 @@
 const name = "vitdocImportMarkdownPlugin";
 
-const importRegex = /import\s+([\w-]+)\s+from\s+['"]([^'"]+\.md)['"]\s*;?/g;
+const importRegex = /import\s+([\w-]+)\s+from\s+['"]([^'"]+\.mdx?)['"]\s*;?/g;
 const tagRegex = (tagName) => new RegExp(`<${tagName}[^>]*>`, "g");
 
 export default () => ({
