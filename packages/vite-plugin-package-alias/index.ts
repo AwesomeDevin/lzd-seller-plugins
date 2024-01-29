@@ -55,16 +55,22 @@ export default (options?: IVitePackageNameAliasPluginParams) => {
   }
 }
 
-async function createPackageAlias(entryFiles, entryConfig) {
+async function createPackageAlias(entryFiles, entryPointPath) {
   const packageAlias = {}
   const packagePromises = entryFiles.map(async (filePath) => {
-    const pkgPath = path.join(filePath, '../package.json')
+    const pkgPath = path.join(
+      filePath.replace(entryPointPath, ''),
+      '../package.json'
+    )
     if (await fsExtra.pathExists(pkgPath)) {
       try {
         const pkg = await fsExtra.readJSON(pkgPath)
         pkg?.name &&
           Object.assign(packageAlias, {
-            [pkg.name]: filePath.replace(`${entryConfig}.(tsx|jsx|ts|js)`, ''),
+            [pkg.name]: filePath.replace(
+              `${entryPointPath}.(tsx?|jsx?)`,
+              ''
+            ),
           })
       } catch (error) {
         // Log the error if needed
