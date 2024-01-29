@@ -1,0 +1,29 @@
+{
+  "name": "@vitdoc-plugins/ice-markdown-replace",
+  "version": "0.0.1-beta.0",
+  "description": "Convert icejs markdown to vitdoc-aware",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "unbuild",
+    "pub": "npm publish --access public",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AwesomeDevin/vitdoc-plugins.git"
+  },
+  "keywords": [
+    "vitdoc"
+  ],
+  "author": "AwesomeDevin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AwesomeDevin/vitdoc-plugins/issues"
+  },
+  "homepage": "https://github.com/AwesomeDevin/vitdoc-plugins#readme"
+}
