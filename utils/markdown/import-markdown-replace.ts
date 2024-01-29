@@ -21,5 +21,5 @@ export const importMarkdownReplace = (content: string) => {
       )
     }
   }
-  return content
+  return modifiedContent
 }
