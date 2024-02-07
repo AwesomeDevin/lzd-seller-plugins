@@ -1,5 +1,6 @@
 import { getVersions } from 'ice-npm-utils';
 import semver from 'semver';
+import { asvCliLogger } from './log';
 
 
 export type VersionType = 'patch' | 'beta';
@@ -8,10 +9,13 @@ export default async (pkgJSON, type: VersionType, registry: string) => {
   const { name, version } = pkgJSON;
 
   let versions: string[] = [];
+
   try {
     versions = await getVersions(name, registry);
-  } catch (e) {
-    console.error('获取版本号失败', e);
+    console.log('versions', versions)
+
+  } catch (e: any) {
+    asvCliLogger.warn('Find Versions Error:' + e.message);
   }
 
   const stableVersions = versions.filter((version) => {
@@ -24,9 +28,9 @@ export default async (pkgJSON, type: VersionType, registry: string) => {
   // 获取最新的版本号不包括 beta 版本
   const latestVersion = stableVersions.length ? stableVersions[stableVersions.length - 1] : version;
 
-  if (versions.length && latestVersion === version && type === 'patch') {
+  if (versions.length && versions.includes(version) && type === 'patch') {
     // 传入版本号已发布，且是最新版本，不修改版本号
-    console.log('传入版本号已发布，且是最新版本，不修改版本号', version);
+    asvCliLogger.success('Production version published, Returned Version: ' + version);
     return version;
   }
 
@@ -51,5 +55,6 @@ export default async (pkgJSON, type: VersionType, registry: string) => {
       newVersion = version;
     }
   }
+  asvCliLogger.success('Production version unpublished, Returned version: ' + version);
   return newVersion;
 }

@@ -1,13 +1,17 @@
 {
-  "name": "ice-plugin-semver-version",
+  "name": "verbump",
   "version": "0.0.1-beta.0",
   "description": "support import markdown",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "bin"
   ],
+  "bin": {
+    "verbump": "./bin/index.js"
+  },
   "scripts": {
     "build": "unbuild",
     "pub": "npm publish --access public",
@@ -18,7 +22,7 @@
     "url": "git+https://github.com/AwesomeDevin/lzd-seller-plugins.git"
   },
   "keywords": [
-    "vitdoc"
+    "verbump"
   ],
   "author": "AwesomeDevin",
   "license": "MIT",
@@ -27,10 +31,12 @@
   },
   "homepage": "https://github.com/AwesomeDevin/lzd-seller-plugins#readme",
   "dependencies": {
+    "consola": "^3.2.3",
+    "commander": "^12.0.0",
+    "esbuild-resolve-config": "^1.0.9",
     "fs-extra": "^11.2.0",
     "ice-npm-utils": "^3.0.3",
-    "semver": "^7.6.0"
-  },
-  "devDependencies": {
+    "semver": "^7.6.0",
+    "yargs-parser": "^21.1.1"
   }
 }
