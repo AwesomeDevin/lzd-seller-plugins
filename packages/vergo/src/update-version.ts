@@ -40,7 +40,7 @@ export default async (pkgJSON: { name: string, version: string }, type: VersionT
 
   let newVersion: string;
   if (type === 'beta') {
-    if (!version.includes('beta') && (!versions.some(str => str.includes(`${version}-beta`) || !versions.length))) {
+    if (!version.includes('beta') && (!versions.some(str => str.includes(`${version}-beta`)) || !versions.length)) {
       // 传入版本号未发布，但是不是 beta 版本，按 beta 递增版本号
       newVersion = `${version}-beta.0`;
     } else {
