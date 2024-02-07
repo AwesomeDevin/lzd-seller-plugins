@@ -7,6 +7,5 @@
   "devDependencies": {
     "@types/node": "^20.11.6",
     "unbuild": "^2.0.0"
-    
   }
 }

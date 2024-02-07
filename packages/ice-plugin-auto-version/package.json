@@ -1,0 +1,36 @@
+{
+  "name": "ice-plugin-semver-version",
+  "version": "0.0.1-beta.0",
+  "description": "support import markdown",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "unbuild",
+    "pub": "npm publish --access public",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AwesomeDevin/lzd-seller-plugins.git"
+  },
+  "keywords": [
+    "vitdoc"
+  ],
+  "author": "AwesomeDevin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AwesomeDevin/lzd-seller-plugins/issues"
+  },
+  "homepage": "https://github.com/AwesomeDevin/lzd-seller-plugins#readme",
+  "dependencies": {
+    "fs-extra": "^11.2.0",
+    "ice-npm-utils": "^3.0.3",
+    "semver": "^7.6.0"
+  },
+  "devDependencies": {
+  }
+}
