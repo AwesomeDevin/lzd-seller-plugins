@@ -3,7 +3,7 @@ import * as path from "path";
 import updateVersion, { VersionType } from "./update-version";
 import resolveConfig, { Config } from "../config";
 import { asvCliLogger } from "./log";
-import { defRegistry, defVersion } from "../config/def";
+import { defRegistry, defVersion, isDaily } from "../config/def";
 import { DEFAULT_IS_BETA, DEFAULT_REGISTRY } from "../config/constant";
 
 export * from '../config/constant'
@@ -11,7 +11,7 @@ export * from '../config/def'
 
 const defDefaultConfig = {
   registry: defRegistry || DEFAULT_REGISTRY,
-  beta: DEFAULT_IS_BETA,
+  beta: DEFAULT_IS_BETA || isDaily,
   set: defVersion,
 }
 
