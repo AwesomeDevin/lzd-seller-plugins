@@ -33,7 +33,7 @@ export default async (pkgJSON: { name: string, version: string }, type: VersionT
 
   if (notReleasedAndNoBeta || notReleasedAndBeta) {
     // 传入版本号未发布，且符合要发的版本号规范，直接使用传入版本号
-    asvCliLogger.success('Project version unpublished, no update occurred: ' + version);
+    asvCliLogger.success(`Project version unpublished, no update occurred, type: ${type}, version: ${version}`);
     return version;
   }
 
@@ -55,6 +55,6 @@ export default async (pkgJSON: { name: string, version: string }, type: VersionT
       // 传入版本号未发布，直接使用传入版本号
     }
   }
-  asvCliLogger.success(`Update ${version} to ${newVersion}`);
+  asvCliLogger.success(`type: ${type}, Update ${version} to ${newVersion}`);
   return newVersion;
 }
