@@ -1,7 +1,7 @@
 {
   "name": "vergo",
-  "version": "0.0.1-beta.0",
-  "description": "support import markdown",
+  "version": "0.0.1-beta.1",
+  "description": "support update project version follow semver",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",

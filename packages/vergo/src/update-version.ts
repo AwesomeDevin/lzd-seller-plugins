@@ -12,8 +12,6 @@ export default async (pkgJSON, type: VersionType, registry: string) => {
 
   try {
     versions = await getVersions(name, registry);
-    console.log('versions', versions)
-
   } catch (e: any) {
     asvCliLogger.warn('Find Versions Error:' + e.message);
   }
@@ -51,10 +49,11 @@ export default async (pkgJSON, type: VersionType, registry: string) => {
       // 传入版本号已发布，按 patch 递增版本好
       newVersion = (semver.inc(latestVersion, 'patch')) as any;
     } else {
+      newVersion = version.split('-')[0];
       // 传入版本号未发布，直接使用传入版本号
-      newVersion = version;
+      console.log("version.split('-')[0", newVersion)
     }
   }
-  asvCliLogger.success('Production version unpublished, Returned version: ' + version);
+  asvCliLogger.success('Production version unpublished, Returned version: ' + newVersion);
   return newVersion;
 }

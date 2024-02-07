@@ -10,11 +10,11 @@ export * from '../config/constant'
 export default async function run(commandConfig: Config) {
   const {
     registry,
-    isBeta
+    beta
   } = resolveConfig(commandConfig)
 
   try {
-    let type: VersionType = isBeta ? 'beta' : 'patch';
+    let type: VersionType = beta ? 'beta' : 'patch';
     const packagePath = path.join(process.cwd(), "./package.json");
     const pkgJSON = JSON.parse(await readFile(packagePath, 'utf8'))
     const newVersion = await updateVersion(pkgJSON, type, registry);

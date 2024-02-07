@@ -3,7 +3,7 @@ import { resolveConfig as esBuildResolveConfig } from "esbuild-resolve-config";
 
 export interface Config {
   registry: string;
-  isBeta: boolean;
+  beta: boolean;
 }
 
 
