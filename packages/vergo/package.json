@@ -1,5 +1,5 @@
 {
-  "name": "verbump",
+  "name": "vergo",
   "version": "0.0.1-beta.0",
   "description": "support import markdown",
   "main": "./dist/index.cjs",
@@ -10,7 +10,7 @@
     "bin"
   ],
   "bin": {
-    "verbump": "./bin/index.js"
+    "vergo": "./bin/index.js"
   },
   "scripts": {
     "build": "unbuild",
@@ -22,7 +22,7 @@
     "url": "git+https://github.com/AwesomeDevin/lzd-seller-plugins.git"
   },
   "keywords": [
-    "verbump"
+    "vergo"
   ],
   "author": "AwesomeDevin",
   "license": "MIT",
