@@ -1,9 +1,5 @@
 const pkg = require('../package.json');
 const { program } = require('commander');
-const {
-  DEFAULT_REGISTRY,
-  DEFAULT_IS_BETA
-} = require('../dist/index.cjs')
 
 const run = require('../dist/index.cjs').default
 
@@ -12,8 +8,11 @@ program
   .version(pkg.version)
 
 program.command('run')
-  .option('-r, --registry <registry>', 'npm registry', DEFAULT_REGISTRY)
-  .option('-b, --beta', 'is beta version', DEFAULT_IS_BETA)
+  .option('-r, --registry <registry>', 'npm registry')
+  .option('-b, --beta', 'is beta version')
+  .option('-s, --set <version>', 'set version')
+  .option('-d, --def', 'enable def config', false)
+
   .action((config) => {
     run(config).then(() => {
       process.exit(0);

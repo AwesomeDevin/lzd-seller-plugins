@@ -2,8 +2,22 @@ import { resolveConfig as esBuildResolveConfig } from "esbuild-resolve-config";
 
 
 export interface Config {
+  /**
+   * The registry to publish to
+   */
   registry: string;
+  /**
+   * is this a beta release
+   */
   beta: boolean;
+  /**
+   * The version to publish
+   */
+  set?: string;
+  /**
+   * enable def mode
+   */
+  def: boolean
 }
 
 

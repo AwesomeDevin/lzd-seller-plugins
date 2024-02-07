@@ -1,4 +1,4 @@
 import { Logger } from '../../../utils'
 
-const name = 'asv-cli'
+const name = 'vergo'
 export const asvCliLogger = new Logger(name)
