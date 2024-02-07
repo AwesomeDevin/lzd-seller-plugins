@@ -55,6 +55,6 @@ export default async (pkgJSON: { name: string, version: string }, type: VersionT
       // 传入版本号未发布，直接使用传入版本号
     }
   }
-  asvCliLogger.success(`Production version unpublished, update ${version} to ${newVersion}`);
+  asvCliLogger.success(`Update ${version} to ${newVersion}`);
   return newVersion;
 }
