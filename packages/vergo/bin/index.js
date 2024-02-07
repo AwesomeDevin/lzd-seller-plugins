@@ -9,7 +9,7 @@ program
 
 program.command('run')
   .option('-r, --registry <registry>', 'npm registry')
-  .option('-b, --beta', 'is beta version')
+  .option('-b, --beta', 'is beta version', false)
   .option('-s, --set <version>', 'set version')
   .option('-d, --def', 'enable def config', false)
 

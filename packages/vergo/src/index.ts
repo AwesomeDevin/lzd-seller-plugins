@@ -3,7 +3,7 @@ import * as path from "path";
 import updateVersion, { VersionType } from "./update-version";
 import resolveConfig, { Config } from "../config";
 import { asvCliLogger } from "./log";
-import { defRegistry, defVersion, isDaily } from "../config/def";
+import { defRegistry, defVersion } from "../config/def";
 import { DEFAULT_IS_BETA, DEFAULT_REGISTRY } from "../config/constant";
 
 export * from '../config/constant'
@@ -11,7 +11,7 @@ export * from '../config/def'
 
 const defDefaultConfig = {
   registry: defRegistry || DEFAULT_REGISTRY,
-  beta: DEFAULT_IS_BETA || isDaily,
+  beta: DEFAULT_IS_BETA,
   set: defVersion,
 }
 
@@ -38,6 +38,7 @@ export default async function run(commandConfig: Config) {
     beta,
     set,
   } = finalConfig;
+
 
   try {
     let type: VersionType = beta ? 'beta' : 'patch';
