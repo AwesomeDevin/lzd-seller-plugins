@@ -1,6 +1,6 @@
 {
   "name": "@vitdoc-plugins/ice-markdown-replace",
-  "version": "0.0.1-beta.2",
+  "version": "0.0.1",
   "description": "Convert icejs markdown to vitdoc-aware",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",

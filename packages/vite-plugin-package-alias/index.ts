@@ -1,11 +1,11 @@
 /**
  * auto resolve package name alias for vite
  */
-import { isMonorepo as isMonorepoFn, Logger } from '../../utils'
-import path from 'path'
-import glob from 'glob'
 import fsExtra from 'fs-extra'
+import glob from 'glob'
+import path from 'path'
 import { mergeConfig } from 'vite'
+import { isMonorepo as isMonorepoFn, Logger } from '../../utils'
 
 export interface IVitePackageNameAliasPluginParams {
   entryPointPath?: string
